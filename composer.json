@@ -1,0 +1,24 @@
+{
+    "name": "qcyx/laravel-api",
+    "description": "laravel的api设计",
+    "require": {
+        "php": "^7.0"
+    }
+    ,
+    "license": "MIT",
+    "autoload": {
+        "psr-4": {
+            "QCYX\\LaravelApi\\": "src/"
+        },
+        "classmap": [
+            "src/"
+        ]
+    },
+    "authors": [
+        {
+            "name": "Edward Yu",
+            "email": "1226642@qq.com"
+        }
+    ],
+    "minimum-stability": "dev"
+}
