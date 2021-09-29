@@ -7,7 +7,6 @@
 
 namespace QCYX\LaravelApi\Traits;
 
-use Illuminate\Support\Collection;
 use QCYX\LaravelApi\Exceptions\ResultException;
 use QCYX\LaravelApi\Interfaces\ResultCodeInterface;
 use QCYX\LaravelApi\Interfaces\ResultMsgInterface;
@@ -27,9 +26,9 @@ trait ResultTrait
      * @throws ResultException
      * @Another Edward Yu 2021/9/2上午11:05
      */
-    public function success(string $msg = ResultMsgInterface::SUCCESS_MSG, $data = null,  int $code = ResultCodeInterface::SUCCESS): void
+    public function success( $data = null, string $msg = ResultMsgInterface::SUCCESS_MSG, int $code = ResultCodeInterface::SUCCESS): void
     {
-        $this->abort( $data, $msg, $code);
+        $this->abort($data, $msg, $code);
     }
 
     /**
@@ -40,7 +39,7 @@ trait ResultTrait
      * @throws ResultException
      * @Another Edward Yu 2021/9/2上午11:05
      */
-    public function error($data = null, string $msg = ResultMsgInterface::ERROR_MSG, int $code = ResultCodeInterface::ERROR): void
+    public function error(string $msg = ResultMsgInterface::ERROR_MSG, int $code = ResultCodeInterface::ERROR, $data = null): void
     {
          $this->abort($data, $msg, $code);
     }

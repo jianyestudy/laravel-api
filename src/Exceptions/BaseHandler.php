@@ -22,7 +22,7 @@ use QCYX\LaravelApi\Interfaces\ResultMsgInterface;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Throwable;
 
-class RefactorHandler extends Handler
+class BaseHandler extends Handler
 {
     protected $code = ResultCodeInterface::ERROR;
     protected $data = null;
@@ -105,7 +105,7 @@ class RefactorHandler extends Handler
         }else if ($e instanceof QueryException){
 
             $this->code = ResultCodeInterface::SYS_EXCEPTION;
-            $this->msg  = ResultMsgInterface::SYS_EXCEPTION;
+            $this->msg  = ResultMsgInterface::SYS_EXCEPTION_MSG;
 
             //记录数据库错误
             $requestErrors = $this->getRequest();

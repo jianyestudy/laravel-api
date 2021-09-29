@@ -30,7 +30,7 @@ interface ResultCodeInterface
     public const REQUEST_LOCKED         = 4009;
     public const SYS_EXCEPTION          = 5000;
     public const SYS_ERROR              = 5001;
-    public const DOWN_UP              = 5003;
+    public const DOWN_UP                = 5003;
 }
 
 

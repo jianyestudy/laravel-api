@@ -2,7 +2,8 @@
     "name": "qcyx/laravel-api",
     "description": "laravel的api设计",
     "require": {
-        "php": "^7.0"
+        "php": "^7.0",
+        "overtrue/laravel-lang": "^5.0"
     }
     ,
     "license": "MIT",

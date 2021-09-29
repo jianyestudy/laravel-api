@@ -9,10 +9,12 @@ namespace QCYX\LaravelApi\Validates;
 
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Str;
+use Illuminate\Validation\Rule;
 
 class BaseValidate extends FormRequest
 {
-
+    protected $requestData = null;
     /**
      * 覆盖自动验证
      * @Another Edward Yu 2021/9/8下午6:03
@@ -65,17 +67,31 @@ class BaseValidate extends FormRequest
      * 返回验证过的数据
      * @param array $data
      * @param array $rules
+     * @param bool $Pagination
      * @param array $messages
      * @param array $customAttributes
-     * @Another Edward Yu 2021/9/8下午8:58
      * @return array
+     * @Another Edward Yu 2021/9/8下午8:58
      */
-    public function scene(array $data, array $rules = [], array $messages = [], array $customAttributes = []): array
+    public function scene( array $rules = [], bool $Pagination = false, array $data = [],  array $messages = [], array $customAttributes = []): array
     {
-        // 参数默认值
+        // 如果验证分页
+        if ($Pagination) {
+            $rules = array_merge($this->paginateRules(),$rules); //合并数组
+            $customAttributes = array_merge($this->paginateAttributes(), $customAttributes);
+        }
+
+        //参数默认值
         empty($rules) && $rules = $this->rules();
-        empty($messages) && $messages = $this->messages();
         empty($customAttributes) && $customAttributes = $this->attributes();
+        empty($messages) && $messages = $this->messages();
+
+        //驼峰与id转换
+        if (!$this->requestData) {
+            $this->convertAttributes();
+        }
+
+        empty($data)  &&  $data = $this->requestData ?? $this->toArray();
 
         // 验证器
         $validate = Validator::make($data, $rules, $messages, $customAttributes);
@@ -88,17 +104,32 @@ class BaseValidate extends FormRequest
     }
 
     /**
-     * 键名交集取规则
-     * @param array $data
-     * @Another Edward Yu 2021/9/8下午6:32
+     * 键名交集取指定的一些规则
+     * @param array $keys
      * @return array
+     * @Another Edward Yu 2021/9/8下午6:32
      */
-    public function many(array $data): array
+    public function take(array $keys): array
     {
-        if (empty($data)) {
+        if (empty($keys)) {
             return $this->rules();
         }
-        return array_intersect_key($this->rules(), array_flip($data));
+
+        return array_intersect_key($this->rules(), array_flip($keys));
+    }
+
+    /**
+     * 根据传递归来的参数与规则交集进行验证
+     * @return array
+     * @Another Edward Yu 2021/9/26上午10:43
+     */
+    public function autoTake(): array
+    {
+        //驼峰与id转换
+        if (!$this->requestData) {
+            $this->convertAttributes();
+        }
+        return array_intersect_key($this->rules(), $this->requestData);
     }
 
     /**
@@ -112,4 +143,49 @@ class BaseValidate extends FormRequest
         }
         return app()->get(__CLASS__);
     }*/
+
+    /**
+     * 分页验证规则
+     * @Another Edward Yu 2021/9/26上午9:13
+     * @return array
+     */
+    public function paginateRules(): array
+    {
+        return [
+            'type' => ['bail', 'nullable','string', Rule::in(['all', 'page'])],
+            'limit' => ['bail', 'nullable', 'numeric', 'max:10000'],
+            'page' => ['bail', 'nullable','numeric'],
+            'keyword' => ['bail','nullable', 'string'],
+        ];
+    }
+
+    /**
+     * 分页验证属性
+     * @Another Edward Yu 2021/9/26上午9:15
+     * @return array
+     */
+    public function paginateAttributes(): array
+    {
+        return [
+            'type'      => '分页类型',
+            'limit'     => '条数',
+            'page'      => '页码',
+            'keyword'   => '关键词'
+        ];
+    }
+
+    public function convertAttributes(): void
+    {
+        $parameters = $this->all();
+        //请求添加id
+        if ( !empty($this->route('id')) ) {
+            $parameters['id'] =  $this->route('id');
+        }
+        //驼峰转蛇形
+        $newParameters = [];
+        foreach ($parameters as $key => $value){
+            $newParameters[Str::snake($key)] = $value;
+        }
+        $this->requestData =  $this->replace($newParameters)->toArray();
+    }
 }
