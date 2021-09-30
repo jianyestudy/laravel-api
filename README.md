@@ -7,7 +7,17 @@
 
 
 ```
-1. composer require QCS/laravel-api
+前提： 在项目composer.json根节点下添加如下自定义仓库配置
+
+    "repositories": [
+        {
+            "type": "vcs",
+            "url": "https://codeup.aliyun.com/60d936bf70ab8549fd3e1719/laravel-api.git"
+        }
+    ],
+
+
+1. composer require qcs/laravel-api
 2. 继承基础控制器BaseController（命名空间：QCS\LaravelApi\Controllers）
 3. 继承基础异常类BaseHandler （命名空间：QCS\LaravelApi\Exceptions）
 4. 继承基础模型类 BaseModel （命名空间：QCS\LaravelApi\Models）
