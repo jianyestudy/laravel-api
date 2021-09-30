@@ -5,12 +5,12 @@
 
  */
 
-namespace QCYX\LaravelApi\Interfaces;
+namespace QCS\LaravelApi\Interfaces;
 
 /**
  * 状态信息
  * @auther Edward Yu
- * @package QCYX\LaravelApi\Interfacesz
+ * @package QCS\LaravelApi\Interfacesz
  */
 interface ResultMsgInterface
 {

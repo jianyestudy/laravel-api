@@ -5,16 +5,16 @@
 
  */
 
-namespace QCYX\LaravelApi\Traits;
+namespace QCS\LaravelApi\Traits;
 
-use QCYX\LaravelApi\Exceptions\ResultException;
-use QCYX\LaravelApi\Interfaces\ResultCodeInterface;
-use QCYX\LaravelApi\Interfaces\ResultMsgInterface;
+use QCS\LaravelApi\Exceptions\ResultException;
+use QCS\LaravelApi\Interfaces\ResultCodeInterface;
+use QCS\LaravelApi\Interfaces\ResultMsgInterface;
 
 /**
  * 统一返回异常
  * @auther Edward Yu
- * @package QCYX\LaravelApi\Traits
+ * @package QCS\LaravelApi\Traits
  */
 trait ResultTrait
 {

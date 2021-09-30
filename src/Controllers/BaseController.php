@@ -1,6 +1,6 @@
 <?php
 
-namespace QCYX\LaravelApi\Controllers;
+namespace QCS\LaravelApi\Controllers;
 
 use Closure;
 use Illuminate\Contracts\Pagination\LengthAwarePaginator;
@@ -10,13 +10,13 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
 use Illuminate\Support\Arr;
-use QCYX\LaravelApi\Exceptions\ResultException;
-use QCYX\LaravelApi\Traits\ResultTrait;
+use QCS\LaravelApi\Exceptions\ResultException;
+use QCS\LaravelApi\Traits\ResultTrait;
 
 /**
  *资源控制器
  * @auther Edward Yu
- * @package QCYX\LaravelApi\Controller
+ * @package QCS\LaravelApi\Controller
  */
 class BaseController extends Controller
 {

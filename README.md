@@ -7,11 +7,11 @@
 
 
 ```
-1. composer require qcyx/laravel-api
-2. 继承基础控制器BaseController（命名空间：QCYX\LaravelApi\Controllers）
-3. 继承基础异常类BaseHandler （命名空间：QCYX\LaravelApi\Exceptions）
-4. 继承基础模型类 BaseModel （命名空间：QCYX\LaravelApi\Models）
-5. 继承基础验证类 BaseValidate （命名空间：QCYX\LaravelApi\Validates）
+1. composer require QCS/laravel-api
+2. 继承基础控制器BaseController（命名空间：QCS\LaravelApi\Controllers）
+3. 继承基础异常类BaseHandler （命名空间：QCS\LaravelApi\Exceptions）
+4. 继承基础模型类 BaseModel （命名空间：QCS\LaravelApi\Models）
+5. 继承基础验证类 BaseValidate （命名空间：QCS\LaravelApi\Validates）
 ```
 
 

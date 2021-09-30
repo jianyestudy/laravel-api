@@ -5,7 +5,7 @@
 
  */
 
-namespace QCYX\LaravelApi\Exceptions;
+namespace QCS\LaravelApi\Exceptions;
 
 use HttpException;
 use Illuminate\Database\QueryException;
@@ -17,8 +17,8 @@ use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Validation\ValidationException;
 use JsonException;
-use QCYX\LaravelApi\Interfaces\ResultCodeInterface;
-use QCYX\LaravelApi\Interfaces\ResultMsgInterface;
+use QCS\LaravelApi\Interfaces\ResultCodeInterface;
+use QCS\LaravelApi\Interfaces\ResultMsgInterface;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Throwable;
 

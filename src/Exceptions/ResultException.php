@@ -5,14 +5,14 @@
 
  */
 
-namespace QCYX\LaravelApi\Exceptions;
+namespace QCS\LaravelApi\Exceptions;
 
 use Exception;
 
 /**
  * 处理请求结果
  * @auther Edward Yu
- * @package QCYX\LaravelApi\Exceptions
+ * @package QCS\LaravelApi\Exceptions
  */
 class ResultException extends Exception
 {

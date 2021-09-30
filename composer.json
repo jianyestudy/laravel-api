@@ -1,5 +1,5 @@
 {
-    "name": "qcyx/laravel-api",
+    "name": "QCS/laravel-api",
     "description": "laravel的api设计",
     "require": {
         "php": "^7.0",
@@ -9,7 +9,7 @@
     "license": "MIT",
     "autoload": {
         "psr-4": {
-            "QCYX\\LaravelApi\\": "src/"
+            "QCS\\LaravelApi\\": "src/"
         },
         "classmap": [
             "src/"

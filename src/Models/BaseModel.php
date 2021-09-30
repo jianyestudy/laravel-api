@@ -5,7 +5,7 @@
 
  */
 
-namespace QCYX\LaravelApi\Models;
+namespace QCS\LaravelApi\Models;
 
 use DateTimeInterface;
 use Illuminate\Database\Eloquent\Factories\HasFactory;

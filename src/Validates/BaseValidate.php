@@ -5,7 +5,7 @@
 
  */
 
-namespace QCYX\LaravelApi\Validates;
+namespace QCS\LaravelApi\Validates;
 
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Support\Facades\Validator;
