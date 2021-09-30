@@ -1,5 +1,5 @@
 {
-    "name": "QCS/laravel-api",
+    "name": "qcs/laravel-api",
     "description": "laravel的api设计",
     "require": {
         "php": "^7.0",
