@@ -347,7 +347,7 @@ class BaseController extends Controller
      * store 后置
      * @Another Edward Yu 2021/9/27下午4:33
      */
-    public function storeAfterHandler($builder, $result): void
+    public function storeAfterHandler($builder, $result)
     {}
 
 
