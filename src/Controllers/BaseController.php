@@ -157,7 +157,7 @@ class BaseController extends Controller
             $this->noData();
         });
         //查询后置操作
-        $this->showAfterHandler();
+        $this->showAfterHandler($result);
 
         $this->success($result);
     }
@@ -347,7 +347,8 @@ class BaseController extends Controller
      * store 后置
      * @Another Edward Yu 2021/9/27下午4:33
      */
-    public function storeAfterHandler(){}
+    public function storeAfterHandler($builder, $result): void
+    {}
 
 
 
@@ -369,7 +370,7 @@ class BaseController extends Controller
      * 查询的后置操作
      * @Another Edward Yu 2021/9/27下午5:03
      */
-    public function showAfterHandler(){}
+    public function showAfterHandler($result){}
 
 
     /**
