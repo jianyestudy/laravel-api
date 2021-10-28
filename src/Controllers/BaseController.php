@@ -204,7 +204,10 @@ class BaseController extends Controller
 
     }
 
-    public function destroy(int $id)
+    /**
+     * @throws ResultException
+     */
+    public function destroy(int $id): void
     {
         //删除前置
         $this->destroyBeforeHandler();
@@ -273,10 +276,11 @@ class BaseController extends Controller
      * 查询结果的后置处理
      * @param  $collect
      * @param array $requestData
-     * @return void |Collection
+     * @return void
      * @Another Edward Yu 2021/9/27上午10:51
      */
-    public function indexAfterHandler( $collect, array $requestData){}
+    public function indexAfterHandler( $collect, array $requestData): void
+    {}
 
 
     /**
@@ -347,7 +351,7 @@ class BaseController extends Controller
      * store 后置
      * @Another Edward Yu 2021/9/27下午4:33
      */
-    public function storeAfterHandler($builder, $result)
+    public function storeAfterHandler($builder, $result): void
     {}
 
 
@@ -370,7 +374,8 @@ class BaseController extends Controller
      * 查询的后置操作
      * @Another Edward Yu 2021/9/27下午5:03
      */
-    public function showAfterHandler($result){}
+    public function showAfterHandler($result): void
+    {}
 
 
     /**
@@ -399,7 +404,8 @@ class BaseController extends Controller
      * @param array $requestData
      * @Another Edward Yu 2021/9/28上午9:21
      */
-    public function updateAfterHandler(int $id, array $requestData){}
+    public function updateAfterHandler(int $id, array $requestData): void
+    {}
 
 
     /**
@@ -420,6 +426,7 @@ class BaseController extends Controller
      * @param int $id
      * @Another Edward Yu 2021/9/28上午11:44
      */
-    public function destroyAfterHandler(int $id){}
+    public function destroyAfterHandler(int $id): void
+    {}
 
 }
