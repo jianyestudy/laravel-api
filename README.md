@@ -30,6 +30,6 @@
 基于restful api的控制器继承基类之后，并且需要建立对应的模型与验证类，注入到控制器中，无需书写index，update，show，destroy，store方法，可自动处理基本的curd需求，自动处理验证请求。
 
 统一json返回：
-在需要返回处 引入UserModelTrait， 调用对应的this->success,this->error,this->noData 可统一返回json格式响应，实现了自定义异常，可处理相关逻辑
+在需要返回处 引入ResultTrait， 调用对应的this->success,this->error,this->noData 可统一返回json格式响应，实现了自定义异常，可处理相关逻辑
 
 

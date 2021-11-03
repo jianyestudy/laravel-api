@@ -152,10 +152,12 @@ class BaseValidate extends FormRequest
     public function paginateRules(): array
     {
         return [
-            'type' => ['bail', 'nullable','string', Rule::in(['all', 'page'])],
-            'limit' => ['bail', 'nullable', 'numeric', 'max:10000'],
-            'page' => ['bail', 'nullable','numeric'],
-            'keyword' => ['bail','nullable', 'string'],
+            'type'          => ['bail', 'nullable','string', Rule::in(['all', 'page'])],
+            'limit'         => ['bail', 'nullable', 'numeric', 'max:10000'],
+            'page'          => ['bail', 'nullable','numeric'],
+            'keyword'       => ['bail','nullable', 'string'],
+            'sort_field'    => ['bail','nullable', 'string'],
+            'sort_type'     => ['bail','nullable', Rule::in(['desc'])],
         ];
     }
 
@@ -167,10 +169,12 @@ class BaseValidate extends FormRequest
     public function paginateAttributes(): array
     {
         return [
-            'type'      => '分页类型',
-            'limit'     => '条数',
-            'page'      => '页码',
-            'keyword'   => '关键词'
+            'type'            => '分页类型',
+            'limit'           => '条数',
+            'page'            => '页码',
+            'keyword'         => '关键词',
+            'sort_field'      => '排序字段',
+            'sort_type'       => '排序类型'
         ];
     }
 

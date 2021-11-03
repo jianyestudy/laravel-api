@@ -10,6 +10,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
 use Illuminate\Support\Arr;
+use Illuminate\Support\Facades\Schema;
 use QCS\LaravelApi\Exceptions\ResultException;
 use QCS\LaravelApi\Traits\ResultTrait;
 
@@ -258,13 +259,33 @@ class BaseController extends Controller
      * @param Builder $builder
      * @param array $requestData
      * @return LengthAwarePaginator|Builder[]|Collection
+     * @throws ResultException
      * @Another Edward Yu 2021/9/27上午10:18
      */
     public function indexSelect(Builder $builder, array $requestData)
     {
         //是否启用分页
         if (!$this->isPaging) {
-            return $builder->select($this->indexColumns)->offset(0)->limit(1000)->get();
+            return $builder->select($this->indexColumns)->offset(0)->get();
+        }
+
+        //是否需要排序
+        if (!empty($requestData['sort_field'])) {
+
+            //排除隐藏的字段
+            if (in_array($requestData['sort_field'], $this->model->getHidden(), true)) {
+                $this->error('不允许的排序字段');
+            }
+
+            //排除表中不存在的字段
+            if (!Schema::hasColumn($this->model->getTable(), $requestData['sort_field'])) {
+                $this->error('不存在的排序字段');
+            }
+
+            //升降序
+            $requestData['sort_type']
+                ? $builder->orderByDesc($requestData['sort_field'])
+                : $builder->orderBy($requestData['sort_field']);
         }
 
         $pageSize = $requestData['limit'] ?? 10;
@@ -276,11 +297,13 @@ class BaseController extends Controller
      * 查询结果的后置处理
      * @param  $collect
      * @param array $requestData
-     * @return void
+     * @return Closure
      * @Another Edward Yu 2021/9/27上午10:51
      */
-    public function indexAfterHandler( $collect, array $requestData): void
-    {}
+    public function indexAfterHandler( $collect, array $requestData): ?callable
+    {
+        return null;
+    }
 
 
     /**
