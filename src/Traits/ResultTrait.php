@@ -7,6 +7,9 @@
 
 namespace QCS\LaravelApi\Traits;
 
+use Illuminate\Database\Eloquent\Model;
+use Illuminate\Pagination\LengthAwarePaginator;
+use Illuminate\Support\Str;
 use QCS\LaravelApi\Exceptions\ResultException;
 use QCS\LaravelApi\Interfaces\ResultCodeInterface;
 use QCS\LaravelApi\Interfaces\ResultMsgInterface;
@@ -69,6 +72,49 @@ trait ResultTrait
      */
     public function abort($data, string $msg, int $code,  int $httpCode = ResultCodeInterface::HTTP_CODE): ResultException
     {
+        //如果返回结果需要转化成驼峰
+        if (config('laravel-api.response_camel')) {
+            $data = self::camelCase($data);
+        }
+
         throw new ResultException($code, $msg, $data, $httpCode);
+    }
+
+    /**
+     * 将结果转化为驼峰
+     * @param null $data
+     * @Another Edward Yu 2021/11/3下午2:40
+     * @return array|null
+     */
+    public static function camelCase( $data = null ): ?array
+    {
+        //如果为空
+        if (!$data) {
+            return null;
+        }
+
+
+        //如果为模型对象
+        if ($data instanceof Model) {
+            $data =  $data->toArray();
+        }
+
+        //如果为分页
+        if ($data instanceof LengthAwarePaginator) {
+            $data =  $data->toArray();
+        }
+
+        $newParameters = [];
+        //其余情况 如数组 模型集合 普通集合 对象数组等
+        foreach ($data as $key => $value){
+            //如果还有下级 递归
+            if(is_array($value)) {
+                $newParameters[$key] = self::camelCase($value);
+            }else{
+                $newParameters[Str::camel($key)] = $value;
+            }
+        }
+
+        return $newParameters ?? $data;
     }
 }

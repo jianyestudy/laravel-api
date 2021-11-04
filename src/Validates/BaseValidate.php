@@ -180,16 +180,20 @@ class BaseValidate extends FormRequest
 
     public function convertAttributes(): void
     {
-        $parameters = $this->all();
+        $this->requestData = $this->all();
         //请求添加id
         if ( !empty($this->route('id')) ) {
-            $parameters['id'] =  $this->route('id');
+            $this->requestData['id'] =  $this->route('id');
         }
+
         //驼峰转蛇形
-        $newParameters = [];
-        foreach ($parameters as $key => $value){
-            $newParameters[Str::snake($key)] = $value;
+        if (config('laravel-api.request_camel')) {
+            $newParameters = [];
+            foreach ($this->requestData as $key => $value){
+                $newParameters[Str::snake($key)] = $value;
+            }
+            $this->requestData =  $this->replace($newParameters)->toArray();
         }
-        $this->requestData =  $this->replace($newParameters)->toArray();
+
     }
 }

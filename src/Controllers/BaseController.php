@@ -266,7 +266,7 @@ class BaseController extends Controller
     {
         //是否启用分页
         if (!$this->isPaging) {
-            return $builder->select($this->indexColumns)->offset(0)->get();
+            return $builder->select($this->indexColumns)->get();
         }
 
         //是否需要排序
