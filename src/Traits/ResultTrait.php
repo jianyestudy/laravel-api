@@ -115,8 +115,13 @@ trait ResultTrait
             $data =  $data->toArray();
         }
 
+        if (!isset($data[0])) {
+            return  $data;
+        }
+
         $newParameters = [];
         //其余情况 如数组 模型集合 普通集合 对象数组等
+
         foreach ($data as $key => $value){
             //如果还有下级 递归
             if(is_array($value) || $value instanceof  Collection || $value instanceof LengthAwarePaginator || $value instanceof Model || $value instanceof  \Illuminate\Support\Collection) {
