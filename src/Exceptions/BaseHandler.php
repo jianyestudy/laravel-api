@@ -150,6 +150,8 @@ class BaseHandler extends Handler
             'headers' => $request->headers->all(),
             'method' => $request->method(),
             'data' => $request->json(),
+            'queryString' => $request->query->all(),
+            'body' => $request->request->all(),
         ];
     }
 

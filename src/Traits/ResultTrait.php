@@ -7,6 +7,7 @@
 
 namespace QCS\LaravelApi\Traits;
 
+use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Pagination\LengthAwarePaginator;
 use Illuminate\Support\Str;
@@ -99,6 +100,16 @@ trait ResultTrait
             $data =  $data->toArray();
         }
 
+        //数据库集合对象
+        if ($data instanceof Collection) {
+            $data =  $data->toArray();
+        }
+
+        //普通集合
+        if ($data instanceof \Illuminate\Support\Collection) {
+            $data =  $data->toArray();
+        }
+
         //如果为分页
         if ($data instanceof LengthAwarePaginator) {
             $data =  $data->toArray();
@@ -108,12 +119,13 @@ trait ResultTrait
         //其余情况 如数组 模型集合 普通集合 对象数组等
         foreach ($data as $key => $value){
             //如果还有下级 递归
-            if(is_array($value)) {
+            if(is_array($value) || $value instanceof  Collection || $value instanceof LengthAwarePaginator || $value instanceof Model || $value instanceof  \Illuminate\Support\Collection) {
                 $newParameters[$key] = self::camelCase($value);
             }else{
                 $newParameters[Str::camel($key)] = $value;
             }
         }
+
 
         return $newParameters ?? $data;
     }
