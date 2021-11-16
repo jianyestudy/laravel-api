@@ -85,52 +85,37 @@ trait ResultTrait
      * 将结果转化为驼峰
      * @param null $data
      * @Another Edward Yu 2021/11/3下午2:40
-     * @return array|null
+     * @return mixed
      */
-    public static function camelCase( $data = null ): ?array
+    public static function camelCase( $data = null )
     {
-        //如果为空
-        if (!$data) {
-            return null;
+        if(is_bool($data) || is_integer($data) || is_float($data) || is_null($data)){
+            return $data;
         }
 
-
-        //如果为模型对象
-        if ($data instanceof Model) {
-            $data =  $data->toArray();
+        if(is_string($data)){
+            return Str::camel($data);
         }
 
-        //数据库集合对象
-        if ($data instanceof Collection) {
-            $data =  $data->toArray();
-        }
-
-        //普通集合
-        if ($data instanceof \Illuminate\Support\Collection) {
-            $data =  $data->toArray();
-        }
-
-        //如果为分页
-        if ($data instanceof LengthAwarePaginator) {
-            $data =  $data->toArray();
-        }
-
-        if (!isset($data[0])) {
-            return  $data;
+        //对象变量转数组
+        if(is_object($data)){
+            try {
+                $data = $data->toArray();
+            }catch (\Exception $e){
+                $data = get_object_vars($data);
+            }
         }
 
         $newParameters = [];
-        //其余情况 如数组 模型集合 普通集合 对象数组等
 
         foreach ($data as $key => $value){
             //如果还有下级 递归
-            if(is_array($value) || $value instanceof  Collection || $value instanceof LengthAwarePaginator || $value instanceof Model || $value instanceof  \Illuminate\Support\Collection) {
+            if(is_array($value) || is_object($value)) {
                 $newParameters[$key] = self::camelCase($value);
             }else{
                 $newParameters[Str::camel($key)] = $value;
             }
         }
-
 
         return $newParameters ?? $data;
     }
