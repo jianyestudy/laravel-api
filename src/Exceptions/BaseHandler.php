@@ -120,6 +120,10 @@ class BaseHandler extends Handler
             //记录错误错误
             $requestErrors = $this->getRequest();
             Log::error('错误请求,请求信息：', $requestErrors);
+        }else if($e instanceof \UnexpectedValueException){
+            //捕捉文件权限问题
+            $this->code = ResultCodeInterface::INVALID_REQUEST;
+            $this->msg  = ResultMsgInterface::INVALID_REQUEST_MSG;
         }else{
 
             //其他反射 绑定 解析错误 与系统错误 系统异常
