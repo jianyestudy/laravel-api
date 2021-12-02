@@ -109,32 +109,28 @@ class BaseHandler extends Handler
 
             //记录数据库错误
             $requestErrors = $this->getRequest();
-            Log::error('数据库异常,请求信息：', $requestErrors);
+            /*Log::error('数据库异常,请求信息：', $requestErrors);
             $databaseErrors = $e->getMessage().PHP_EOL.$e->getTraceAsString();
-            Log::error($databaseErrors);
-        }else if ($e instanceof NotFoundHttpException){
+            Log::error($databaseErrors);*/
+        }else if ($e instanceof NotFoundHttpException || $e instanceof \UnexpectedValueException){
 
             $this->code = ResultCodeInterface::INVALID_REQUEST;
             $this->msg  = ResultMsgInterface::INVALID_REQUEST_MSG;
 
-            //记录错误错误
+           /* //记录错误错误
             $requestErrors = $this->getRequest();
-            Log::error('错误请求,请求信息：', $requestErrors);
-        }else if($e instanceof \UnexpectedValueException){
-            //捕捉文件权限问题
-            $this->code = ResultCodeInterface::INVALID_REQUEST;
-            $this->msg  = ResultMsgInterface::INVALID_REQUEST_MSG;
+            Log::error('错误请求,请求信息：', $requestErrors);*/
         }else{
 
             //其他反射 绑定 解析错误 与系统错误 系统异常
             $this->code = ResultCodeInterface::SYS_ERROR;
             $this->msg  = ResultMsgInterface::SYS_ERROR_MSG;
 
-            //记录其他错误
+            /*//记录其他错误
             $requestErrors = $this->getRequest();
             Log::error('系统错误,请求信息:', $requestErrors);
             $databaseErrors = $e->getMessage().PHP_EOL.$e->getTraceAsString();
-            Log::error($databaseErrors);
+            Log::error($databaseErrors);*/
         }
     }
 
