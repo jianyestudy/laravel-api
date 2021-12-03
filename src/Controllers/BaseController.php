@@ -7,6 +7,7 @@ use Illuminate\Contracts\Pagination\LengthAwarePaginator;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
 use Illuminate\Support\Arr;
@@ -21,7 +22,7 @@ use QCS\LaravelApi\Traits\ResultTrait;
  */
 class BaseController extends Controller
 {
-    use ResultTrait;
+    use ResultTrait,AuthorizesRequests;
     /**
      * 模型实例
      * @var Model

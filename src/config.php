@@ -19,4 +19,10 @@ return [
      */
 
     'response_camel' => false,
+
+    /*
+     * 是否需要在日志中记录所有异常信息
+     */
+
+    'exception_log' => true,
 ];

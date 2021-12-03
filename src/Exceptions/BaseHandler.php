@@ -8,6 +8,7 @@
 namespace QCS\LaravelApi\Exceptions;
 
 use HttpException;
+use Illuminate\Auth\Access\AuthorizationException;
 use Illuminate\Database\QueryException;
 use Illuminate\Foundation\Exceptions\Handler;
 use Illuminate\Foundation\Http\Exceptions\MaintenanceModeException;
@@ -82,55 +83,49 @@ class BaseHandler extends Handler
     {
         //自定义异常
         if ($e instanceof ResultException) {
-
             $this->code     = $e->getCode();
             $this->msg      = $e->getMessage();
             $this->data     = $e->getData();
             $this->httpCode = $e->getHttpCode();
 
         }else if ($e instanceof MaintenanceModeException){
-
             //维护模式将在未来的版本删除
             $this->code = ResultCodeInterface::MAINTENANCE;
             $this->msg  = ResultMsgInterface::MAINTENANCE_MSG;
 
         }else if ($e instanceof ValidationException){
-
             $this->msg = $e->validator->getMessageBag()->first();
 
         }else if ($e instanceof HttpException){
-
             $this->msg = ResultMsgInterface::INVALID_REQUEST_MSG;
 
         }else if ($e instanceof QueryException){
-
             $this->code = ResultCodeInterface::SYS_EXCEPTION;
             $this->msg  = ResultMsgInterface::SYS_EXCEPTION_MSG;
 
-            //记录数据库错误
-            $requestErrors = $this->getRequest();
-            /*Log::error('数据库异常,请求信息：', $requestErrors);
-            $databaseErrors = $e->getMessage().PHP_EOL.$e->getTraceAsString();
-            Log::error($databaseErrors);*/
-        }else if ($e instanceof NotFoundHttpException || $e instanceof \UnexpectedValueException){
-
+        }else if ($e instanceof NotFoundHttpException || $e instanceof \UnexpectedValueException || $e instanceof  AuthorizationException){
             $this->code = ResultCodeInterface::INVALID_REQUEST;
             $this->msg  = ResultMsgInterface::INVALID_REQUEST_MSG;
 
-           /* //记录错误错误
-            $requestErrors = $this->getRequest();
-            Log::error('错误请求,请求信息：', $requestErrors);*/
         }else{
-
             //其他反射 绑定 解析错误 与系统错误 系统异常
             $this->code = ResultCodeInterface::SYS_ERROR;
             $this->msg  = ResultMsgInterface::SYS_ERROR_MSG;
 
-            /*//记录其他错误
-            $requestErrors = $this->getRequest();
-            Log::error('系统错误,请求信息:', $requestErrors);
-            $databaseErrors = $e->getMessage().PHP_EOL.$e->getTraceAsString();
-            Log::error($databaseErrors);*/
+        }
+
+        //记录错误信息
+        if (!$e instanceof ResultException && config('laravel-api.exception_log')) {
+            try {
+                //类型文件写入异常 不捕获就无法显示错误信息 无法写入  此处捕获强制抛出
+                $requestErrors = $this->getRequest();
+                Log::error('系统错误,请求信息:', $requestErrors);
+                $databaseErrors = $e->getMessage().PHP_EOL.$e->getTraceAsString();
+                Log::error($databaseErrors);
+            }catch (\Exception $exception){
+                dd($e->getMessage().PHP_EOL.$e->getTraceAsString());
+            }
+
         }
     }
 
