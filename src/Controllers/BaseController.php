@@ -295,10 +295,13 @@ class BaseController extends Controller
 	public function show(int $id): void
 	{
 		//查询前置操作
-		$this->showBeforeHandler();
+		$requestData = $this->showBeforeHandler();
 
 		//构造查询器
 		$builder = $this->model::query();
+
+		//自定义查询
+        $this->withShowBuilder($builder,$requestData);
 
 		//自定义构造
 		$builder = $this->showHandler($builder, $id);
@@ -349,6 +352,13 @@ class BaseController extends Controller
 			$this->noData();
 		});
 	}
+
+	/**
+     * 查询构造器
+     */
+    public function withShowBuilder(Builder $builder,array $requestData) : void
+    {
+    }
 
 	/**
 	 * 查询的后置操作

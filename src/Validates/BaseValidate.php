@@ -75,16 +75,16 @@ class BaseValidate extends FormRequest
      */
     public function scene( array $rules = [], bool $Pagination = false, array $data = [],  array $messages = [], array $customAttributes = []): array
     {
+        //参数默认值
+        empty($rules) && $rules = $this->rules();
+        empty($customAttributes) && $customAttributes = $this->attributes();
+        empty($messages) && $messages = $this->messages();
+
         // 如果验证分页
         if ($Pagination) {
             $rules = array_merge($this->paginateRules(),$rules); //合并数组
             $customAttributes = array_merge($this->paginateAttributes(), $customAttributes);
         }
-
-        //参数默认值
-        empty($rules) && $rules = $this->rules();
-        empty($customAttributes) && $customAttributes = $this->attributes();
-        empty($messages) && $messages = $this->messages();
 
         //驼峰与id转换
         if (!$this->requestData) {
