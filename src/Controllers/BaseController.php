@@ -12,6 +12,7 @@ use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Schema;
+use Illuminate\Support\Str;
 use QCS\LaravelApi\Exceptions\ResultException;
 use QCS\LaravelApi\Traits\ResultTrait;
 
@@ -165,6 +166,10 @@ class BaseController extends Controller
 		//是否需要排序
 		if (!empty($requestData['sort_field'])) {
 
+			//是否需要转蛇行
+			if (config('laravel-api.request_camel')) {
+				$requestData['sort_field'] = Str::snake($requestData['sort_field']);
+			}
 			//排除隐藏的字段
 			if (in_array($requestData['sort_field'], $this->model->getHidden(), true)) {
 				$this->error('不允许的排序字段');
@@ -176,9 +181,9 @@ class BaseController extends Controller
 			}
 
 			//升降序
-			$requestData['sort_type']
-				? $builder->orderByDesc($requestData['sort_field'])
-				: $builder->orderBy($requestData['sort_field']);
+			empty($requestData['sort_type'])
+				? $builder->orderBy($requestData['sort_field'])
+				: $builder->orderByDesc($requestData['sort_field']);
 		}
 
 		$pageSize = $requestData['limit'] ?? 10;
@@ -295,10 +300,13 @@ class BaseController extends Controller
 	public function show(int $id): void
 	{
 		//查询前置操作
-		$this->showBeforeHandler();
+		$requestData = $this->showBeforeHandler();
 
 		//构造查询器
 		$builder = $this->model::query();
+
+		//自定义查询
+		$this->withShowBuilder($builder,$requestData);
 
 		//自定义构造
 		$builder = $this->showHandler($builder, $id);
@@ -348,6 +356,13 @@ class BaseController extends Controller
 		return $builder->firstOr($this->showColumns, function () {
 			$this->noData();
 		});
+	}
+
+	/**
+	 * 查询构造器
+	 */
+	public function withShowBuilder(Builder $builder,array $requestData) : void
+	{
 	}
 
 	/**
