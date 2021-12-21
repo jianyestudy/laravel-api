@@ -65,12 +65,13 @@ class BaseValidate extends FormRequest
 
 	/**
 	 * 返回验证过的数据
-	 * @param array $data
 	 * @param array $rules
 	 * @param bool $Pagination
+	 * @param array $data
 	 * @param array $messages
 	 * @param array $customAttributes
 	 * @return array
+	 * @throws \Illuminate\Validation\ValidationException
 	 * @Another Edward Yu 2021/9/8下午8:58
 	 */
 	public function scene( array $rules = [], bool $Pagination = false, array $data = [],  array $messages = [], array $customAttributes = []): array

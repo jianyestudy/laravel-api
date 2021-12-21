@@ -186,9 +186,9 @@ class BaseController extends Controller
 				: $builder->orderByDesc($requestData['sort_field']);
 		}
 
-		$pageSize = $requestData['limit'] ?? 10;
-		$page     = $requestData['page'] ?? 1;
-		return $builder->paginate($pageSize, $this->indexColumns, 'page', $page);
+		$pageSize =  $requestData['limit'] ?? 10;
+		$page     =  $requestData['page'] ?? 1;
+		return $builder->paginate((integer) $pageSize, $this->indexColumns, 'page', (integer) $page);
 	}
 
 	/**
