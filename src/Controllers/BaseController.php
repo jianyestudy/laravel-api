@@ -169,6 +169,7 @@ class BaseController extends Controller
 			//是否需要转蛇行
 			if (config('laravel-api.request_camel')) {
 				$requestData['sort_field'] = Str::snake($requestData['sort_field']);
+				$requestData['sort_type'] = Str::snake($requestData['sort_type']);
 			}
 			//排除隐藏的字段
 			if (in_array($requestData['sort_field'], $this->model->getHidden(), true)) {
