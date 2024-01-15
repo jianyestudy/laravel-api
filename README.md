@@ -6,21 +6,6 @@
 为了不破坏框架现有的功能，不增加额外学习成本，使用了继承的方式，可随意覆盖或者选择性继承
 
 前提： 在项目composer.json根节点下添加如下自定义仓库配置:
-
-
-```json
-{
-"repositories": [
-        {
-            "type": "vcs",
-            "url": "https://codeup.aliyun.com/60d936bf70ab8549fd3e1719/laravel-api.git"
-        }
-    ]
-}
-```
-
-
-
 1. composer require qcs/laravel-api
 2. laravel 5.5以上自动发现服务提供者，无需操作，5.5以下版本请手动添加
 3. 发布配置文件 php artisan vendor:publish --provider="QCS\LaravelApi\Providers\LaravelApiProvider"，
